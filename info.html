@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Help &amp; contact — AROHA</title>
+  <meta name="description" content="Oversized hoodies and modern punjabi, designed in Dhaka. Cash on delivery all over Bangladesh.">
+  <meta name="theme-color" content="#0a0a0a">
+  <meta property="og:title" content="Help &amp; contact — AROHA">
+  <meta property="og:description" content="Oversized hoodies and modern punjabi, designed in Dhaka. Cash on delivery all over Bangladesh.">
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main>
+    <div class="page-head">
+      <p class="crumbs"><a href="index.html">Home</a> / Help</p>
+      <h1>Help</h1>
+    </div>
+    <div class="info-layout">
+      <nav class="info-nav" aria-label="Help topics">
+        <a href="#shipping">Shipping</a>
+        <a href="#payment">Payment</a>
+        <a href="#returns">Returns &amp; exchange</a>
+        <a href="#sizes">Size guide</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div>
+        <section class="info-section" id="shipping">
+          <h2>Shipping</h2>
+          <p>We deliver all over Bangladesh through trusted courier partners.</p>
+          <ul>
+            <li><b>Inside Dhaka:</b> <span data-fee="inside">৳70</span> — usually 1–3 working days.</li>
+            <li><b>Outside Dhaka:</b> <span data-fee="outside">৳130</span> — usually 3–5 working days.</li>
+            <li>We call you to confirm every order before sending it.</li>
+          </ul>
+        </section>
+        <section class="info-section" id="payment">
+          <h2>Payment</h2>
+          <h3>Cash on delivery</h3>
+          <p>Pay the delivery rider in cash when your parcel arrives.</p>
+          <h3>bKash</h3>
+          <p>Send the total amount to our bKash number <b data-bkash>01787456456</b> using <b>Send Money</b>, then enter the transaction ID at checkout. We confirm your order once the payment is checked.</p>
+        </section>
+        <section class="info-section" id="returns">
+          <h2>Returns &amp; exchange</h2>
+          <ul>
+            <li>Exchange within <b>7 days</b> of delivery if the size doesn't fit or the item is faulty.</li>
+            <li>Items must be unworn, unwashed and have their tags attached.</li>
+            <li>Please check your parcel in front of the rider. If something is wrong, tell us straight away.</li>
+            <li>To start an exchange, contact us with your order number.</li>
+          </ul>
+        </section>
+        <section class="info-section" id="sizes">
+          <h2>Size guide</h2>
+          <h3>Hoodies</h3>
+          <div id="sizeHoodie"></div>
+          <h3>Punjabi</h3>
+          <div id="sizePunjabi"></div>
+        </section>
+        <section class="info-section" id="contact">
+          <h2>Contact</h2>
+          <div class="contact-grid">
+            <a id="cEmail"><strong>Email</strong><span></span></a>
+            <a id="cPhone"><strong>Phone</strong><span></span></a>
+            <div id="cLoc"><strong>Location</strong><span></span></div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+  <script type="module" src="js/pages/info.js"></script>
+</body>
+</html>
