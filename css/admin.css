@@ -7,7 +7,7 @@
   position: sticky; top: 0; height: 100vh;
   display: flex; flex-direction: column; padding: 24px 16px;
 }
-.admin-side .logo { font-size: 36px; padding: 0 8px; }
+.admin-side .logo { font-size: 20px; padding: 0 8px; }
 .admin-side .tag { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.5); padding: 4px 8px 28px; }
 .admin-nav { display: grid; gap: 2px; }
 .admin-nav a {
@@ -24,7 +24,7 @@
 
 .admin-main { padding: clamp(20px, 3vw, 40px); min-width: 0; }
 .admin-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
-.admin-head h1 { font-size: clamp(44px, 5vw, 72px); }
+.admin-head h1 { font-size: clamp(22px, 2.6vw, 32px); font-weight: 600; letter-spacing: .1em; }
 
 .card { background: var(--white); border: 1px solid var(--gray-100); }
 .card-pad { padding: 20px; }
@@ -32,7 +32,7 @@
 .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
 .stat { background: var(--white); border: 1px solid var(--gray-100); padding: 20px; display: grid; gap: 6px; }
 .stat span { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--gray-500); font-weight: 600; }
-.stat strong { font-family: var(--display); font-stretch: 62%; font-weight: 900; font-size: 44px; line-height: 1; }
+.stat strong { font-family: var(--display); font-stretch: 125%; font-weight: 500; font-size: 30px; line-height: 1.1; }
 .stat.alert strong { color: var(--sale); }
 
 .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -128,12 +128,12 @@
 
 .gate { min-height: 100vh; display: grid; place-items: center; padding: 24px; background: var(--black); }
 .gate-card { background: var(--white); padding: clamp(28px, 5vw, 56px); max-width: 480px; width: 100%; display: grid; gap: 16px; }
-.gate-card .logo { font-size: 48px; }
+.gate-card .logo { font-size: 26px; }
 
 @media (max-width: 900px) {
   .admin { grid-template-columns: 1fr; }
   .admin-side { position: sticky; top: 0; z-index: 40; height: auto; flex-direction: row; align-items: center; padding: 10px 12px; gap: 8px; overflow-x: auto; }
-  .admin-side .logo { font-size: 26px; }
+  .admin-side .logo { font-size: 16px; }
   .admin-side .tag { display: none; }
   .admin-nav { display: flex; gap: 2px; }
   .admin-nav a { padding: 8px 10px; font-size: 13px; white-space: nowrap; }

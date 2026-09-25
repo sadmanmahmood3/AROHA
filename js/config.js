@@ -25,7 +25,7 @@ export const CONFIG = {
     location: 'Sector 12, Uttara, Dhaka',
   },
   SOCIAL: {
-    facebook: '',   // e.g. 'https://facebook.com/aroha'
+    facebook: 'https://www.facebook.com/share/19JGKAUR9d/',
     instagram: '',  // e.g. 'https://instagram.com/aroha'
   },
 };
