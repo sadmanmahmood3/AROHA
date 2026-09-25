@@ -3,7 +3,7 @@ import { CONFIG } from './config.js';
 import { isConfigured } from './supabase.js';
 import { getSettings } from './api.js';
 import { getCart, setQty, removeItem, cartCount, cartSubtotal } from './cart.js';
-import { $, esc, money, fitText } from './utils.js';
+import { $, esc, money } from './utils.js';
 import { placeholderHTML } from './components.js';
 
 export async function renderLayout({ active = '' } = {}) {
@@ -72,7 +72,6 @@ export async function renderLayout({ active = '' } = {}) {
           <span>Delivery all over Bangladesh</span>
         </div>
       </div>
-      <p class="footer-wordmark" aria-hidden="true">${CONFIG.BRAND}</p>
       <div class="footer-bottom">
         <span>© ${new Date().getFullYear()} ${CONFIG.BRAND}. All rights reserved.</span>
         <span>Designed in Dhaka</span>
@@ -90,7 +89,6 @@ export async function renderLayout({ active = '' } = {}) {
     </aside>
     <div class="toast" id="toast" role="status"></div>`;
   document.body.append(...bottom.children);
-  fitText(document.querySelector('.footer-wordmark'));
 
   // Mobile menu
   const toggle = $('#menuToggle');

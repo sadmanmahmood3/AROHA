@@ -4,7 +4,8 @@ import { productCard, emptyState, skeletonGrid } from '../components.js';
 import { $, esc, fitText } from '../utils.js';
 
 const settings = await renderLayout();
-fitText($('.hero-word'));
+// Big AROHA: about two-thirds of the width on computers, most of the width on phones
+fitText($('.hero-word'), (w) => (w < 800 ? 0.9 : 0.66));
 
 // Banner photos (uploaded by the admin in Settings)
 if (settings.hero_image) $('#heroBg').innerHTML = `<img src="${esc(settings.hero_image)}" alt="">`;

@@ -157,7 +157,8 @@ button { cursor: pointer; background: none; border: 0; }
 /* ---------- Hero ---------- */
 .hero {
   position: relative;
-  min-height: calc(100svh - var(--header-h) - 36px);
+  min-height: clamp(360px, 56vh, 600px);
+  padding-top: clamp(48px, 7vw, 96px);
   background: var(--black);
   color: var(--white);
   display: flex;
@@ -176,10 +177,12 @@ button { cursor: pointer; background: none; border: 0; }
   align-items: flex-end;
   gap: 24px;
   flex-wrap: wrap;
-  margin-bottom: clamp(16px, 2vw, 28px);
+  margin-bottom: clamp(28px, 3.5vw, 48px);
 }
-.hero-top p.lead { max-width: 360px; font-size: 14px; color: rgba(255,255,255,.8); margin-top: 10px; }
-.hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+.hero-top .eyebrow { font-size: 10px; letter-spacing: .22em; }
+.hero-top p.lead { max-width: 300px; font-size: 12.5px; line-height: 1.7; color: rgba(255,255,255,.7); margin-top: 8px; }
+.hero-cta { display: flex; gap: 10px; flex-wrap: wrap; }
+.hero-cta .btn { height: 40px; padding: 0 22px; font-size: 10px; }
 .hero-word {
   display: inline-block;
   font-size: clamp(64px, 20vw, 380px);
@@ -484,7 +487,7 @@ button { cursor: pointer; background: none; border: 0; }
 .footer-grid a:hover { color: var(--white); }
 .footer-head { font-size: 10.5px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; margin-bottom: 6px; }
 .footer-wordmark { display: inline-block; font-size: clamp(60px, 19vw, 360px); font-weight: 500; line-height: .8; margin: clamp(40px, 6vw, 80px) 0 20px -0.03em; letter-spacing: -0.01em; white-space: nowrap; }
-.footer-bottom { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.55); border-top: 1px solid rgba(255,255,255,.15); padding-top: 16px; }
+.footer-bottom { margin-top: clamp(40px, 6vw, 72px); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.55); border-top: 1px solid rgba(255,255,255,.15); padding-top: 16px; }
 
 /* ---------- Toast ---------- */
 .toast {
@@ -565,5 +568,6 @@ button { cursor: pointer; background: none; border: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation: none !important; transition: none !important; }
+  *:not(.marquee-track), *::before, *::after { animation: none !important; transition: none !important; }
+  .marquee-track { animation-duration: 70s !important; }
 }
