@@ -1,0 +1,19 @@
+# Visits the AROHA database once a day so the free Supabase plan never pauses it.
+name: Keep database awake
+
+on:
+  schedule:
+    - cron: '17 3 * * *'   # every day at 09:17 Bangladesh time
+  workflow_dispatch:        # lets you run it by hand from the Actions tab
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase
+        run: |
+          code=$(curl -s -o /dev/null -w "%{http_code}" \
+            "https://jemszwwmqhyvefxblfqu.supabase.co/rest/v1/site_settings?select=id&limit=1" \
+            -H "apikey: sb_publishable_BBmR3MXX_sTB88CdR4horQ_tRc6yJ-j")
+          echo "Supabase answered: $code"
+          test "$code" = "200"
