@@ -3,11 +3,10 @@ import { sizeGuideTable } from '../components.js';
 import { CONFIG } from '../config.js';
 import { $, $$, money } from '../utils.js';
 
-const settings = await renderLayout();
+const settings = await renderLayout({ active: 'help' });
 const { email, phone, location: address } = CONFIG.CONTACT;
 
 $('#sizeHoodie').innerHTML = sizeGuideTable('hoodie');
-$('#sizePunjabi').innerHTML = sizeGuideTable('punjabi');
 $$('[data-fee="inside"]').forEach((el) => (el.textContent = money(settings.delivery_inside)));
 $$('[data-fee="outside"]').forEach((el) => (el.textContent = money(settings.delivery_outside)));
 $$('[data-bkash]').forEach((el) => (el.textContent = settings.bkash_number));

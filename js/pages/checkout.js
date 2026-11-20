@@ -1,5 +1,6 @@
 import { renderLayout } from '../layout.js';
 import { sb, isConfigured } from '../supabase.js';
+import { CONFIG } from '../config.js';
 import { listProducts } from '../api.js';
 import { getUser, signInWithGoogle, signOut, displayName } from '../auth.js';
 import { getCart, syncCart, clearCart, removeItem } from '../cart.js';
@@ -98,8 +99,8 @@ async function start() {
           <div class="choice-group" role="radiogroup" aria-label="Payment method">
             <label class="choice"><input type="radio" name="payment" value="cod" checked>
               <span class="choice-main">Cash on delivery</span></label>
-            <label class="choice"><input type="radio" name="payment" value="bkash">
-              <span class="choice-main">bKash</span></label>
+            ${CONFIG.BKASH_ENABLED ? `<label class="choice"><input type="radio" name="payment" value="bkash">
+              <span class="choice-main">bKash</span></label>` : ''}
           </div>
           <div class="info-box hidden" id="bkashBox">
             <p><b>How to pay with bKash</b></p>

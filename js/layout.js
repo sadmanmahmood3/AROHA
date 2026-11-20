@@ -7,39 +7,45 @@ import { $, esc, money } from './utils.js';
 import { placeholderHTML } from './components.js';
 
 export async function renderLayout({ active = '' } = {}) {
-  const settings = await getSettings();
   const { email, phone, location } = CONFIG.CONTACT;
   const social = Object.entries(CONFIG.SOCIAL).filter(([, url]) => url);
 
   const top = document.createElement('div');
   top.innerHTML = `
     ${!isConfigured ? `<div class="setup-banner">Preview mode — the website isn't connected to the database yet. Follow <b>README.md</b> to finish setup.</div>` : ''}
-    ${settings.announcement ? `<div class="announce"><span>${esc(settings.announcement)}</span></div>` : ''}
     <header class="site-header" id="siteHeader">
       <div class="header-inner">
         <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
           <span></span><span></span>
         </button>
         <nav class="main-nav" aria-label="Main">
-          <a href="shop.html?cat=hoodie" class="${active === 'hoodie' ? 'active' : ''}">Hoodies</a>
-          <a href="shop.html?cat=punjabi" class="${active === 'punjabi' ? 'active' : ''}">Punjabi</a>
-          <a href="shop.html" class="${active === 'all' ? 'active' : ''}">Shop all</a>
+          <a href="shop.html" class="${active === 'shop' ? 'active' : ''}">Shop</a>
+          <a href="index.html#lookbook">Lookbook</a>
+          <a href="info.html" class="${active === 'help' ? 'active' : ''}">Help</a>
         </nav>
-        <a href="index.html" class="logo" aria-label="${CONFIG.BRAND} home">${CONFIG.BRAND}</a>
+        <a href="index.html" class="logo" aria-label="${CONFIG.BRAND} home">${logoHTML()}</a>
         <div class="header-actions">
           <a href="account.html" class="hide-sm ${active === 'account' ? 'active' : ''}">Account</a>
           <button class="bag-btn" id="bagBtn" aria-label="Open bag">Bag (<span id="bagCount">0</span>)</button>
         </div>
       </div>
       <div class="mobile-menu" id="mobileMenu">
-        <a href="shop.html?cat=hoodie">Hoodies</a>
-        <a href="shop.html?cat=punjabi">Punjabi</a>
-        <a href="shop.html">Shop all</a>
+        <a href="shop.html">Shop</a>
+        <a href="index.html#lookbook">Lookbook</a>
         <a href="account.html">Account</a>
         <a href="info.html#contact">Contact</a>
       </div>
     </header>`;
   document.body.prepend(...top.children);
+  // The monogram is the "A", so the text reads "ROHA". If the picture is missing, show the full name.
+  document.querySelectorAll('.logo-img').forEach((img) => {
+    const hide = () => {
+      const text = img.parentElement?.querySelector('.logo-text');
+      if (text) text.textContent = CONFIG.BRAND;
+      img.remove();
+    };
+    if (img.complete && !img.naturalWidth) hide(); else img.addEventListener('error', hide);
+  });
 
   const bottom = document.createElement('div');
   bottom.innerHTML = `
@@ -47,16 +53,16 @@ export async function renderLayout({ active = '' } = {}) {
       <div class="footer-grid">
         <div>
           <p class="footer-head">Shop</p>
-          <a href="shop.html?cat=hoodie">Hoodies</a>
-          <a href="shop.html?cat=punjabi">Punjabi</a>
-          <a href="shop.html">Shop all</a>
+          <a href="shop.html">All hoodies</a>
+          <a href="index.html#lookbook">Lookbook</a>
+          <a href="info.html#sizes">Size guide</a>
         </div>
         <div>
           <p class="footer-head">Help</p>
           <a href="info.html#shipping">Shipping</a>
           <a href="info.html#returns">Returns &amp; exchange</a>
-          <a href="info.html#sizes">Size guide</a>
           <a href="account.html">My orders</a>
+          <a href="privacy.html">Privacy</a>
         </div>
         <div>
           <p class="footer-head">Contact</p>
@@ -68,7 +74,7 @@ export async function renderLayout({ active = '' } = {}) {
         <div>
           <p class="footer-head">Payment</p>
           <span>Cash on delivery</span>
-          <span>bKash</span>
+          ${CONFIG.BKASH_ENABLED ? '<span>bKash</span>' : ''}
           <span>Delivery all over Bangladesh</span>
         </div>
       </div>
@@ -113,7 +119,19 @@ export async function renderLayout({ active = '' } = {}) {
   window.addEventListener('storage', renderBag); // bag changed in another tab
   renderBag();
 
+  // Settings come from the database; the page is already drawn, so a slow database can't block it
+  const settings = await getSettings();
+  if (settings.announcement) {
+    const bar = document.createElement('div');
+    bar.className = 'announce';
+    bar.innerHTML = `<span>${esc(settings.announcement)}</span>`;
+    header.before(bar);
+  }
   return settings;
+}
+
+export function logoHTML() {
+  return `<img class="logo-img" src="${CONFIG.LOGO}" alt=""><span class="logo-text">${CONFIG.BRAND.slice(1)}</span>`;
 }
 
 export function openBag() {

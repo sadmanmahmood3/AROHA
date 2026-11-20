@@ -75,8 +75,8 @@ function render(p) {
           <details><summary>Delivery &amp; payment</summary>
             <div class="acc-body" style="white-space:normal">
               <p>Inside Dhaka: ${money(settings.delivery_inside)} · Outside Dhaka: ${money(settings.delivery_outside)}</p>
-              <p>Cash on delivery or bKash. We call to confirm every order.</p>
-              <p>Exchange within 7 days if the size doesn't fit. <a href="info.html#returns" style="text-decoration:underline">Read more</a></p>
+              <p>Cash on delivery. We call to confirm every order.</p>
+              <p>Faulty item? Exchange within 7 days. Please check the size guide before ordering. <a href="info.html#returns" style="text-decoration:underline">Read more</a></p>
             </div>
           </details>
         </div>

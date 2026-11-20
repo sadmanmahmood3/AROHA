@@ -7,8 +7,8 @@
 
 export const CONFIG = {
   // Supabase → Project Settings → Data API / API Keys
-  SUPABASE_URL: 'https://qkuxwvjynocpvhwiducv.supabase.co',
-  SUPABASE_ANON_KEY: 'sb_publishable_3M_XGbmMaPIFheVIfuyRPA_NT0ZWCBx',  // the "publishable" / "anon public" key — NEVER the secret/service_role key
+  SUPABASE_URL: 'https://jemszwwmqhyvefxblfqu.supabase.co',
+  SUPABASE_ANON_KEY: 'sb_publishable_BBmR3MXX_sTB88CdR4horQ_tRc6yJ-j',  // the "publishable" / "anon public" key — NEVER the secret/service_role key
 
   // EmailJS → sends you an email for every new order
   EMAILJS_PUBLIC_KEY: 'NBekUtfMMjUgZ4yCB',
@@ -18,6 +18,7 @@ export const CONFIG = {
 
   // Brand + contact info shown on the website
   BRAND: 'AROHA',
+  LOGO: 'images/logo.png',   // put your logo file here (transparent PNG works best)
   ADMIN_EMAIL: 'arohagmail@gmail.com',
   CONTACT: {
     email: 'arohagmail@gmail.com',
@@ -25,7 +26,11 @@ export const CONFIG = {
     location: 'Sector 12, Uttara, Dhaka',
   },
   SOCIAL: {
-    facebook: 'https://www.facebook.com/share/19JGKAUR9d/',
-    instagram: '',  // e.g. 'https://instagram.com/aroha'
+    facebook: 'https://www.facebook.com/share/1DfK4zG3Hh/',
+    instagram: 'https://www.instagram.com/arohabd',
   },
+
+  // bKash "Send Money" at checkout. Off: the website can't check bKash payments itself.
+  // Turn on (true) only if you'll check every bKash payment in your bKash app by hand.
+  BKASH_ENABLED: false,
 };

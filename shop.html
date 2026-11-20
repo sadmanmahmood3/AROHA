@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Shop — AROHA</title>
-  <meta name="description" content="Oversized hoodies and modern punjabi, designed in Dhaka. Cash on delivery all over Bangladesh.">
+  <title>Hoodies — AROHA</title>
+  <meta name="description" content="Oversized hoodies, designed in Dhaka. Cash on delivery all over Bangladesh.">
   <meta name="theme-color" content="#0a0a0a">
   <meta property="og:title" content="Shop — AROHA">
-  <meta property="og:description" content="Oversized hoodies and modern punjabi, designed in Dhaka. Cash on delivery all over Bangladesh.">
-  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <meta property="og:description" content="Oversized hoodies, designed in Dhaka. Cash on delivery all over Bangladesh.">
+  <link rel="icon" href="images/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -17,15 +18,11 @@
 <body>
   <main>
     <div class="page-head">
-      <p class="crumbs"><a href="index.html">Home</a> / <span id="crumb">Shop</span></p>
-      <h1 id="shopTitle">Shop all</h1>
+      <p class="crumbs"><a href="index.html">Home</a> / Shop</p>
+      <h1>Hoodies</h1>
     </div>
     <div class="toolbar">
-      <nav class="tabs" aria-label="Categories">
-        <a href="shop.html" data-cat="">All</a>
-        <a href="shop.html?cat=hoodie" data-cat="hoodie">Hoodies</a>
-        <a href="shop.html?cat=punjabi" data-cat="punjabi">Punjabi</a>
-      </nav>
+      <p class="muted small" id="count"></p>
       <div class="toolbar-right">
         <label class="check"><input type="checkbox" id="hideSold"> Hide sold out</label>
         <select class="select" id="sort" aria-label="Sort">
@@ -36,7 +33,6 @@
       </div>
     </div>
     <div class="shop-grid">
-      <p class="muted small" id="count" style="margin-bottom:16px"></p>
       <div class="grid" id="shopGrid"></div>
     </div>
   </main>

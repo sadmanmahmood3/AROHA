@@ -80,7 +80,7 @@ function shell() {
   app.innerHTML = `
     <div class="admin">
       <aside class="admin-side">
-        <a href="#dashboard" class="logo">${CONFIG.BRAND}</a>
+        <a href="#dashboard" class="logo" aria-label="${CONFIG.BRAND}"><img class="logo-img" src="images/logo-white.png" alt="">${CONFIG.BRAND.slice(1)}</a>
         <p class="tag">Admin</p>
         <nav class="admin-nav">
           <a href="#dashboard" data-route="dashboard">Dashboard</a>
@@ -231,7 +231,7 @@ function productsView() {
   $('#view').innerHTML = `
     <div class="admin-head"><h1>Products</h1><button class="btn btn-dark" id="addBtn">+ Add product</button></div>
     <div class="filters">
-      ${[['all', 'All'], ['hoodie', 'Hoodies'], ['punjabi', 'Punjabi'], ['soldout', 'Sold out'], ['hidden', 'Hidden']]
+      ${[['all', 'All'], ['soldout', 'Sold out'], ['hidden', 'Hidden']]
         .map(([k, l]) => `<button class="filter-btn ${state.productFilter === k ? 'active' : ''}" data-filter="${k}">${l}</button>`).join('')}
       <input class="search" id="pSearch" placeholder="Search products…" value="${esc(state.productSearch)}">
     </div>
@@ -247,7 +247,6 @@ function drawProductTable() {
   const f = state.productFilter;
   const q = state.productSearch.trim().toLowerCase();
   const list = state.products.filter((p) => {
-    if (f === 'hoodie' || f === 'punjabi') { if (p.category !== f) return false; }
     if (f === 'soldout' && !isSoldOut(p.id)) return false;
     if (f === 'hidden' && p.is_active) return false;
     if (q && !`${p.name} ${p.color}`.toLowerCase().includes(q)) return false;
@@ -261,14 +260,14 @@ function drawProductTable() {
         ${list.map((p) => `
           <tr class="clickable" data-edit="${p.id}">
             <td><div class="cell-product">${thumb(p.images[0])}<div><b>${esc(p.name)}</b>${p.color ? `<br><span class="muted small">${esc(p.color)}</span>` : ''}</div></div></td>
-            <td class="hide-mobile">${CATEGORIES[p.category].single}</td>
+            <td class="hide-mobile">${CATEGORIES[p.category]?.single || p.category}</td>
             <td>${money(p.price)}${p.compare_at_price > p.price ? `<br><s class="muted small">${money(p.compare_at_price)}</s>` : ''}</td>
             <td>${stockPills(p.id)}<span class="muted small">Total: ${totalStock(p.id)}</span></td>
             <td>${statusChips(p)}</td>
             <td><button class="mini-btn">Edit</button></td>
           </tr>`).join('')}
       </tbody>
-    </table></div>` : `<p class="card-pad muted">${state.products.length ? 'No products match.' : 'No products yet. Click “+ Add product” to add your first hoodie or punjabi.'}</p>`;
+    </table></div>` : `<p class="card-pad muted">${state.products.length ? 'No products match.' : 'No products yet. Click “+ Add product” to add your first hoodie.'}</p>`;
 
   $$('#productTable [data-edit]').forEach((tr) => tr.addEventListener('click', () => openEditor(tr.dataset.edit)));
 }
@@ -308,11 +307,9 @@ async function openEditor(id) {
 
       <div class="fieldset">
         <p class="section-label" style="margin:0">Details</p>
-        <div class="field"><label for="fName">Product name</label><input id="fName" required maxlength="120" value="${esc(p?.name || '')}" placeholder="e.g. Heavyweight Oversized Hoodie"></div>
-        <div class="field-row">
-          <div class="field"><label for="fCat">Category</label>
-            <select id="fCat">${Object.entries(CATEGORIES).map(([k, c]) => `<option value="${k}" ${p?.category === k ? 'selected' : ''}>${c.single}</option>`).join('')}</select>
-          </div>
+        <div class="field"><label for="fName">Product name</label><input id="fName" required maxlength="120" value="${esc(p?.name || '')}" placeholder="e.g. Oversized Hoodie — Black"></div>
+        <input type="hidden" id="fCat" value="hoodie">
+        <div class="field-row" style="grid-template-columns:1fr">
           <div class="field"><label for="fColor">Colour</label><input id="fColor" maxlength="60" value="${esc(p?.color || '')}" placeholder="e.g. Jet Black"></div>
         </div>
         <div class="field-row">
@@ -328,8 +325,7 @@ async function openEditor(id) {
         <div class="stock-rows" id="stockRows"></div>
         <div class="preset-row">
           <button type="button" class="mini-btn" id="addSize">+ Add size</button>
-          <button type="button" class="mini-btn" data-preset="hoodie">Use hoodie sizes (S–XXL)</button>
-          <button type="button" class="mini-btn" data-preset="punjabi">Use punjabi sizes (38–46)</button>
+          <button type="button" class="mini-btn" data-preset="hoodie">Use hoodie sizes (M–XL)</button>
         </div>
         <p class="muted small" style="margin-top:8px">When every size reaches 0, the product shows as <b>Sold out</b> automatically.</p>
       </div>
@@ -694,7 +690,10 @@ async function changeStatus(id, status, sel) {
 // ---------------------------------------------------------------------
 function settingsView() {
   const s = state.settings;
-  const imgs = { hero_image: s.hero_image, hoodie_image: s.hoodie_image, punjabi_image: s.punjabi_image };
+  const imgs = { hero_image: s.hero_image };
+  const hasLookbook = Object.prototype.hasOwnProperty.call(s, 'lookbook_images');
+  const looks = [...(s.lookbook_images || [])];
+  let uploading = 0;
 
   $('#view').innerHTML = `
     <div class="admin-head"><h1>Settings</h1></div>
@@ -712,16 +711,21 @@ function settingsView() {
           <div class="field"><label for="sIn">Delivery inside Dhaka (৳)</label><input id="sIn" type="number" min="0" value="${s.delivery_inside ?? 70}"></div>
           <div class="field"><label for="sOut">Delivery outside Dhaka (৳)</label><input id="sOut" type="number" min="0" value="${s.delivery_outside ?? 130}"></div>
         </div>
-        <div class="field"><label for="sBkash">bKash number customers send money to</label><input id="sBkash" maxlength="20" value="${esc(s.bkash_number || '')}"></div>
+        <div class="field ${CONFIG.BKASH_ENABLED ? '' : 'hidden'}"><label for="sBkash">bKash number customers send money to</label><input id="sBkash" maxlength="20" value="${esc(s.bkash_number || '')}"></div>
       </div>
       <div class="fieldset">
-        <p class="section-label" style="margin:0">Home page photos</p>
-        <p class="muted small" style="margin-top:-6px">Big, high-quality photos look best. The big banner works well with a wide (landscape) photo.</p>
-        ${[['hero_image', 'Big banner (top of home page)'], ['hoodie_image', 'Hoodies tile'], ['punjabi_image', 'Punjabi tile']].map(([k, l]) => `
-          <div class="single-img" data-slot="${k}">
-            <div class="slot-preview"></div>
-            <div><p class="label">${l}</p><p class="muted small">Without a photo, a bold black design is shown.</p></div>
-          </div>`).join('')}
+        <p class="section-label" style="margin:0">Lookbook (model photoshoot)</p>
+        ${hasLookbook ? `
+          <p class="muted small" style="margin-top:-6px">These show on the home page under “Lookbook”, in this order. Add as many as you like; 2, 3 or 4 look best. Use ← to move a photo earlier.</p>
+          <div class="img-grid" id="lookGrid"></div>`
+        : `<div class="form-error">The lookbook isn't switched on in the database yet. In Supabase → SQL Editor, run the file <b>supabase/lookbook.sql</b>, then reload this page.</div>`}
+      </div>
+      <div class="fieldset">
+        <p class="section-label" style="margin:0">Hero background (optional)</p>
+        <div class="single-img" data-slot="hero_image">
+          <div class="slot-preview"></div>
+          <div><p class="label">Photo behind the big AROHA</p><p class="muted small">Leave empty for the plain black design. A wide (landscape) photo works best.</p></div>
+        </div>
       </div>
       <div id="setError" class="form-error hidden" role="alert"></div>
       <div><button class="btn btn-dark" id="saveSet" type="submit">Save settings</button></div>
@@ -743,6 +747,46 @@ function settingsView() {
   };
   Object.keys(imgs).forEach(drawSlot);
 
+  // Lookbook photo manager
+  const drawLooks = () => {
+    const grid = $('#lookGrid');
+    if (!grid) return;
+    grid.innerHTML = looks.map((src, i) => `
+      <div class="img-item">
+        <img src="${esc(src)}" alt="">
+        <div class="img-actions">
+          ${i > 0 ? `<button type="button" data-look-left="${i}" title="Move earlier">←</button>` : ''}
+          <button type="button" data-look-del="${i}" title="Remove">✕</button>
+        </div>
+      </div>`).join('') +
+      Array.from({ length: uploading }, () => '<div class="img-item img-uploading"><div class="spinner"></div></div>').join('') +
+      `<label class="img-add" id="lookDrop"><input type="file" accept="image/*" multiple id="lookInput"><span>+ Add photos<br><span class="small">or drag them here</span></span></label>`;
+    const add = async (files) => {
+      files = [...files].filter((f) => f.type.startsWith('image/'));
+      if (!files.length) return;
+      uploading += files.length;
+      drawLooks();
+      for (const file of files) {
+        try { looks.push(await uploadImage(file, 'lookbook')); } catch (err) { toast(`Couldn't upload ${file.name}: ${errorText(err)}`, 'error'); }
+        uploading--;
+        drawLooks();
+      }
+    };
+    $('#lookInput').addEventListener('change', (e) => { add(e.target.files); e.target.value = ''; });
+    const drop = $('#lookDrop');
+    drop.addEventListener('dragover', (e) => { e.preventDefault(); drop.classList.add('drag'); });
+    drop.addEventListener('dragleave', () => drop.classList.remove('drag'));
+    drop.addEventListener('drop', (e) => { e.preventDefault(); drop.classList.remove('drag'); add(e.dataTransfer.files); });
+  };
+  $('#lookGrid')?.addEventListener('click', (e) => {
+    const del = e.target.closest('[data-look-del]');
+    const left = e.target.closest('[data-look-left]');
+    if (del) looks.splice(+del.dataset.lookDel, 1);
+    if (left) { const i = +left.dataset.lookLeft; [looks[i - 1], looks[i]] = [looks[i], looks[i - 1]]; }
+    if (del || left) { e.preventDefault(); drawLooks(); }
+  });
+  drawLooks();
+
   $('#setForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const inside = Number($('#sIn').value);
@@ -753,6 +797,10 @@ function settingsView() {
       errEl.textContent = 'Delivery charges must be whole numbers.';
       return errEl.classList.remove('hidden');
     }
+    if (uploading) {
+      errEl.textContent = 'Please wait — photos are still uploading.';
+      return errEl.classList.remove('hidden');
+    }
     const btn = $('#saveSet');
     btn.disabled = true;
     const { error } = await sb.from('site_settings').update({
@@ -761,6 +809,7 @@ function settingsView() {
       delivery_outside: outside,
       bkash_number: $('#sBkash').value.trim(),
       ...imgs,
+      ...(hasLookbook ? { lookbook_images: looks } : {}),
       updated_at: new Date().toISOString(),
     }).eq('id', 1);
     btn.disabled = false;

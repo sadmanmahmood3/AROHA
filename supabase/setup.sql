@@ -43,8 +43,10 @@ create table if not exists public.site_settings (
   hero_image       text,
   hoodie_image     text,
   punjabi_image    text,
+  lookbook_images  text[] not null default '{}',
   updated_at       timestamptz not null default now()
 );
+alter table public.site_settings add column if not exists lookbook_images text[] not null default '{}';
 insert into public.site_settings (id) values (1) on conflict (id) do nothing;
 alter table public.site_settings enable row level security;
 

@@ -2,8 +2,9 @@ export const $ = (sel, el = document) => el.querySelector(sel);
 export const $$ = (sel, el = document) => [...el.querySelectorAll(sel)];
 
 export const CATEGORIES = {
-  hoodie: { label: 'Hoodies', single: 'Hoodie', sizes: ['S', 'M', 'L', 'XL', 'XXL'] },
-  punjabi: { label: 'Punjabi', single: 'Punjabi', sizes: ['38', '40', '42', '44', '46'] },
+  hoodie: { label: 'Hoodies', single: 'Hoodie', sizes: ['M', 'L', 'XL'] },
+  // Kept only so older punjabi products don't break; hidden everywhere on the site
+  punjabi: { label: 'Punjabi', single: 'Punjabi', sizes: ['38', '40', '42', '44', '46'], hidden: true },
 };
 
 export const STATUS = {

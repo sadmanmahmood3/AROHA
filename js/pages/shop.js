@@ -1,16 +1,9 @@
 import { renderLayout } from '../layout.js';
 import { listProducts } from '../api.js';
 import { productCard, emptyState, skeletonGrid } from '../components.js';
-import { $, $$, param, CATEGORIES } from '../utils.js';
+import { $ } from '../utils.js';
 
-const cat = CATEGORIES[param('cat')] ? param('cat') : '';
-await renderLayout({ active: cat || 'all' });
-
-const title = cat ? CATEGORIES[cat].label : 'Shop all';
-document.title = `${title} — AROHA`;
-$('#shopTitle').textContent = title;
-$('#crumb').textContent = title;
-$$('.tabs a').forEach((a) => a.classList.toggle('active', a.dataset.cat === cat));
+const layout = renderLayout({ active: 'shop' });
 
 const grid = $('#shopGrid');
 grid.innerHTML = skeletonGrid(8);
@@ -18,11 +11,11 @@ grid.innerHTML = skeletonGrid(8);
 let products = [];
 let failed = false;
 try {
-  products = await listProducts({ category: cat || undefined });
+  products = await listProducts({ category: 'hoodie' });
 } catch (err) {
   console.error(err);
   failed = true;
-  grid.innerHTML = emptyState('Could not load products', 'Please refresh the page.');
+  grid.innerHTML = emptyState('Could not load products', 'Please refresh the page in a moment.');
 }
 
 // Remember the visitor's choices on this device
@@ -46,7 +39,7 @@ function render() {
     ? list.map(productCard).join('')
     : products.length
       ? emptyState('Everything is sold out', 'New pieces are on the way.', null)
-      : emptyState('Coming soon', `Our ${cat ? CATEGORIES[cat].label.toLowerCase() : 'collection'} will be here very soon.`, { href: 'index.html', label: 'Back to home' });
+      : emptyState('Coming soon', 'Our new hoodies will be here very soon.', { href: 'index.html', label: 'Back to home' });
 }
 
 if (!failed) {
@@ -54,3 +47,4 @@ if (!failed) {
   $('#hideSold').addEventListener('change', render);
   render();
 }
+await layout;

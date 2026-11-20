@@ -7,7 +7,8 @@
   position: sticky; top: 0; height: 100vh;
   display: flex; flex-direction: column; padding: 24px 16px;
 }
-.admin-side .logo { font-size: 20px; padding: 0 8px; }
+.admin-side .logo { font-size: 13px; padding: 0 8px; gap: 1px; letter-spacing: .24em; line-height: .74; align-items: flex-end; }
+.admin-side .logo-img { height: 26px; }
 .admin-side .tag { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.5); padding: 4px 8px 28px; }
 .admin-nav { display: grid; gap: 2px; }
 .admin-nav a {
@@ -133,7 +134,7 @@
 @media (max-width: 900px) {
   .admin { grid-template-columns: 1fr; }
   .admin-side { position: sticky; top: 0; z-index: 40; height: auto; flex-direction: row; align-items: center; padding: 10px 12px; gap: 8px; overflow-x: auto; }
-  .admin-side .logo { font-size: 16px; }
+  .admin-side .logo { font-size: 11px; }
   .admin-side .tag { display: none; }
   .admin-nav { display: flex; gap: 2px; }
   .admin-nav a { padding: 8px 10px; font-size: 13px; white-space: nowrap; }

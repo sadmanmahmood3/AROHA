@@ -45,12 +45,17 @@ export function skeletonGrid(n = 4) {
     <div class="pcard skeleton"><div class="pcard-media"></div><div class="pcard-info"><p></p><p></p></div></div>`).join('');
 }
 
-// Size charts (inches). Edit the numbers here if your measurements are different.
+// Size chart. EU size = half the body chest in cm (48 → 96 cm chest).
+// Body measurements of the person the size is made for. Edit here if needed.
 export const SIZE_GUIDE = {
   hoodie: {
-    note: 'Oversized fit. For a regular fit, choose one size down.',
-    head: ['Size', 'Chest', 'Length', 'Sleeve'],
-    rows: [['S', '46', '27', '23'], ['M', '48', '28', '23.5'], ['L', '50', '29', '24'], ['XL', '52', '30', '24.5'], ['XXL', '54', '31', '25']],
+    note: 'Body measurements (your body, not the hoodie). EU size = half your chest in cm. Our hoodies have an oversized cut, so they fit roomier than these numbers. Between sizes? Choose the bigger one.',
+    head: ['Size', 'EU', 'Chest', 'Waist'],
+    rows: [
+      ['M', '48', '96 cm / 38 in', '84 cm / 33 in'],
+      ['L', '50', '100 cm / 39 in', '88 cm / 35 in'],
+      ['XL', '52', '104 cm / 41 in', '92 cm / 36 in'],
+    ],
   },
   punjabi: {
     note: 'Punjabi size = your chest measurement in inches.',
@@ -67,5 +72,5 @@ export function sizeGuideTable(category) {
       <thead><tr>${g.head.map((h) => `<th>${h}</th>`).join('')}</tr></thead>
       <tbody>${g.rows.map((r) => `<tr>${r.map((c) => `<td>${c}</td>`).join('')}</tr>`).join('')}</tbody>
     </table>
-    <p class="muted small">${g.note} Measurements are in inches.</p>`;
+    <p class="muted small">${g.note}</p>`;
 }
