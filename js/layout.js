@@ -7,7 +7,7 @@ import { $, esc, money } from './utils.js';
 import { placeholderHTML } from './components.js';
 
 export async function renderLayout({ active = '' } = {}) {
-  const { email, phone, location } = CONFIG.CONTACT;
+  const { email } = CONFIG.CONTACT;
   const social = Object.entries(CONFIG.SOCIAL).filter(([, url]) => url);
 
   const top = document.createElement('div');
@@ -52,30 +52,15 @@ export async function renderLayout({ active = '' } = {}) {
     <footer class="site-footer">
       <div class="footer-grid">
         <div>
-          <p class="footer-head">Shop</p>
-          <a href="shop.html">All hoodies</a>
-          <a href="index.html#lookbook">Lookbook</a>
-          <a href="info.html#sizes">Size guide</a>
-        </div>
-        <div>
           <p class="footer-head">Help</p>
           <a href="info.html#shipping">Shipping</a>
           <a href="info.html#returns">Returns &amp; exchange</a>
-          <a href="account.html">My orders</a>
           <a href="privacy.html">Privacy</a>
         </div>
         <div>
           <p class="footer-head">Contact</p>
           <a href="mailto:${email}">${email}</a>
-          <a href="tel:${phone}">${phone}</a>
-          <span>${esc(location)}</span>
           ${social.map(([name, url]) => `<a href="${esc(url)}" target="_blank" rel="noopener">${name[0].toUpperCase() + name.slice(1)}</a>`).join('')}
-        </div>
-        <div>
-          <p class="footer-head">Payment</p>
-          <span>Cash on delivery</span>
-          ${CONFIG.BKASH_ENABLED ? '<span>bKash</span>' : ''}
-          <span>Delivery all over Bangladesh</span>
         </div>
       </div>
       <div class="footer-bottom">
