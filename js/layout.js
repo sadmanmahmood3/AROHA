@@ -52,14 +52,22 @@ export async function renderLayout({ active = '' } = {}) {
     <footer class="site-footer">
       <div class="footer-grid">
         <div>
+          <p class="footer-head">Shop</p>
+          <a href="shop.html">Hoodies</a>
+          <a href="index.html#lookbook">Lookbook</a>
+        </div>
+        <div>
           <p class="footer-head">Help</p>
           <a href="info.html#shipping">Shipping</a>
-          <a href="info.html#returns">Returns &amp; exchange</a>
+          <a href="info.html#returns">Returns</a>
           <a href="privacy.html">Privacy</a>
         </div>
         <div>
           <p class="footer-head">Contact</p>
-          <a href="mailto:${email}">${email}</a>
+          <a href="mailto:${email}" title="${email}">Email</a>
+        </div>
+        <div>
+          <p class="footer-head">Follow</p>
           ${social.map(([name, url]) => `<a href="${esc(url)}" target="_blank" rel="noopener">${name[0].toUpperCase() + name.slice(1)}</a>`).join('')}
         </div>
       </div>

@@ -11,21 +11,33 @@ const words = ['New drop', 'Oversized hoodies', 'Designed in Dhaka', 'Cash on de
 const line = words.map((w) => `<span>${w} —</span>`).join('');
 $('#marquee').innerHTML = line + line;
 
-// Fabric hunt film: plays silently while on screen, visitors can turn the sound on
+// Fabric hunt film: full-width, plays silently while on screen; pause and sound buttons in the corner
+const filmBox = $('#film');
 const film = $('#filmVideo');
-const soundBtn = $('#filmSound');
 const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const playFilm = () => film.play().catch(() => {});
+let userPaused = calm; // people who ask for less motion start paused
+const showState = () => {
+  filmBox.classList.toggle('is-paused', film.paused);
+  filmBox.classList.toggle('has-sound', !film.muted);
+  $('#filmPlay').setAttribute('aria-label', film.paused ? 'Play video' : 'Pause video');
+  $('#filmSound').setAttribute('aria-label', film.muted ? 'Turn sound on' : 'Turn sound off');
+  $('#filmSound').setAttribute('aria-pressed', String(!film.muted));
+};
+const playFilm = () => film.play().catch(() => {}).finally(showState);
+['play', 'pause', 'volumechange'].forEach((ev) => film.addEventListener(ev, showState));
 new IntersectionObserver(([entry]) => {
-  if (entry.isIntersecting && (!calm || !film.muted)) playFilm();
+  if (entry.isIntersecting && !userPaused) playFilm();
   else film.pause();
-}, { threshold: 0.35 }).observe(film);
-soundBtn.addEventListener('click', () => {
-  film.muted = !film.muted;
-  if (!film.muted) playFilm();
-  soundBtn.textContent = film.muted ? 'Sound on' : 'Sound off';
-  soundBtn.setAttribute('aria-pressed', String(!film.muted));
+}, { threshold: 0.3 }).observe(film);
+$('#filmPlay').addEventListener('click', () => {
+  userPaused = !film.paused;
+  if (userPaused) film.pause(); else playFilm();
 });
+$('#filmSound').addEventListener('click', () => {
+  film.muted = !film.muted;
+  if (!film.muted) { userPaused = false; playFilm(); }
+});
+showState();
 
 // The new drop: featured hoodies (or the newest ones)
 const drop = $('#dropGrid');

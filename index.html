@@ -21,17 +21,11 @@
     <section class="hero" id="hero">
       <div class="hero-bg" id="heroBg"></div>
       <div class="hero-content">
-        <div class="hero-top">
-          <div>
-            <p class="eyebrow">Collection 01 — Designed in Dhaka</p>
-            <p class="lead">Oversized hoodies. Heavy fabric, clean cuts, made to be worn every day.</p>
-          </div>
-          <div class="hero-cta">
-            <a href="#drop" class="btn btn-light">Shop the drop</a>
-            <a href="#lookbook" class="btn btn-outline-light">Lookbook</a>
-          </div>
-        </div>
         <h1 class="hero-word">AROHA</h1>
+        <div class="hero-cta">
+          <a href="#drop" class="btn btn-light">Shop the drop</a>
+          <a href="#lookbook" class="btn btn-outline-light">Lookbook</a>
+        </div>
       </div>
     </section>
 
@@ -40,15 +34,23 @@
     </div>
 
     <section class="film" id="film">
-      <div class="film-text">
-        <p class="eyebrow">Drop 01 — Behind the fabric</p>
+      <video id="filmVideo" src="media/fabric-hunt.mp4" poster="media/fabric-hunt.jpg"
+             muted loop playsinline preload="metadata" aria-label="AROHA fabric hunt video"></video>
+      <div class="film-overlay">
         <h2>The fabric hunt</h2>
-        <p class="film-lead">Out on the hunt for the first drop. We went through Dhaka's fabric markets, feeling every roll, to find the right weight for an everyday hoodie.</p>
+        <div class="film-cta">
+          <a href="#drop" class="btn btn-outline-light">Shop the drop</a>
+        </div>
       </div>
-      <div class="film-frame">
-        <video id="filmVideo" src="media/fabric-hunt.mp4" poster="media/fabric-hunt.jpg"
-               muted loop playsinline preload="metadata" aria-label="AROHA fabric hunt video"></video>
-        <button class="film-sound" id="filmSound" type="button" aria-pressed="false">Sound on</button>
+      <div class="film-controls">
+        <button type="button" id="filmPlay" aria-label="Pause video">
+          <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3v14H7zM14 5h3v14h-3z"/></svg>
+          <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg>
+        </button>
+        <button type="button" id="filmSound" aria-label="Turn sound on" aria-pressed="false">
+          <svg class="i-muted" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 9l5 6M21 9l-5 6" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+          <svg class="i-sound" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+        </button>
       </div>
     </section>
 
