@@ -11,6 +11,22 @@ const words = ['New drop', 'Oversized hoodies', 'Designed in Dhaka', 'Cash on de
 const line = words.map((w) => `<span>${w} —</span>`).join('');
 $('#marquee').innerHTML = line + line;
 
+// Fabric hunt film: plays silently while on screen, visitors can turn the sound on
+const film = $('#filmVideo');
+const soundBtn = $('#filmSound');
+const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const playFilm = () => film.play().catch(() => {});
+new IntersectionObserver(([entry]) => {
+  if (entry.isIntersecting && (!calm || !film.muted)) playFilm();
+  else film.pause();
+}, { threshold: 0.35 }).observe(film);
+soundBtn.addEventListener('click', () => {
+  film.muted = !film.muted;
+  if (!film.muted) playFilm();
+  soundBtn.textContent = film.muted ? 'Sound on' : 'Sound off';
+  soundBtn.setAttribute('aria-pressed', String(!film.muted));
+});
+
 // The new drop: featured hoodies (or the newest ones)
 const drop = $('#dropGrid');
 drop.innerHTML = skeletonGrid(2);
