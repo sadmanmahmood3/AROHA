@@ -1,0 +1,2 @@
+# Send anyone using the old Netlify address to the real domain
+https://arohabd.netlify.app/* https://arohabd.com/:splat 301!
