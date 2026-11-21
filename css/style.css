@@ -516,7 +516,7 @@ button { cursor: pointer; background: none; border: 0; }
 
 /* ---------- Footer ---------- */
 .site-footer { background: var(--black); color: var(--white); padding: clamp(40px, 5vw, 64px) var(--pad) 20px; overflow: hidden; }
-.footer-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+.footer-grid { display: grid; grid-template-columns: repeat(3, auto); justify-content: space-between; gap: 24px; }
 .footer-grid > div { display: grid; gap: 10px; align-content: start; font-size: 12.5px; }
 .footer-grid a, .footer-grid span { color: rgba(255,255,255,.7); width: fit-content; }
 .footer-grid a:hover { color: var(--white); }

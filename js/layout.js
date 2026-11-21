@@ -65,9 +65,6 @@ export async function renderLayout({ active = '' } = {}) {
         <div>
           <p class="footer-head">Contact</p>
           <a href="mailto:${email}" title="${email}">Email</a>
-        </div>
-        <div>
-          <p class="footer-head">Follow</p>
           ${social.map(([name, url]) => `<a href="${esc(url)}" target="_blank" rel="noopener">${name[0].toUpperCase() + name.slice(1)}</a>`).join('')}
         </div>
       </div>
