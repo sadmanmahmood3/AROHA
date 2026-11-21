@@ -248,27 +248,29 @@ button { cursor: pointer; background: none; border: 0; }
 .cat-link { font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; border-bottom: 1px solid; padding-bottom: 2px; white-space: nowrap; }
 
 /* ---------- Lookbook (model photoshoot) ---------- */
-/* Fabric hunt film */
-.film {
-  background: var(--black); color: var(--white);
-  display: grid; grid-template-columns: 1fr auto; gap: clamp(32px, 6vw, 96px); align-items: end;
-  padding: clamp(56px, 8vw, 110px) var(--pad);
+/* Fabric hunt film: full-width video banner */
+.film { position: relative; height: clamp(420px, 82vh, 860px); background: var(--black); color: var(--white); overflow: hidden; }
+.film video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
+.film::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,0) 45%); pointer-events: none; }
+.film-overlay {
+  position: absolute; left: 0; right: 0; bottom: clamp(32px, 7vh, 72px); z-index: 1;
+  display: grid; justify-items: center; gap: 18px; text-align: center; padding: 0 var(--pad);
 }
-.film .eyebrow { color: rgba(255,255,255,.55); font-size: 10px; letter-spacing: .22em; }
-.film h2 { font-size: clamp(22px, 3vw, 40px); font-weight: 600; letter-spacing: .1em; text-transform: uppercase; margin: 14px 0 18px; }
-.film-lead { max-width: 380px; color: rgba(255,255,255,.7); line-height: 1.6; }
-.film-frame { position: relative; height: min(78vh, 720px); aspect-ratio: 9 / 16; background: #111; overflow: hidden; }
-.film-frame video { width: 100%; height: 100%; object-fit: cover; display: block; }
-.film-sound {
-  position: absolute; left: 14px; bottom: 14px;
-  font-size: 10px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase;
-  color: var(--white); background: rgba(0,0,0,.45); border: 1px solid rgba(255,255,255,.5);
-  padding: 9px 12px; backdrop-filter: blur(4px); transition: background .2s, color .2s;
+.film-overlay h2 { font-size: clamp(18px, 2.2vw, 28px); font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+.film-controls { position: absolute; right: var(--pad); bottom: clamp(32px, 7vh, 72px); z-index: 2; display: flex; gap: 8px; }
+.film-controls button {
+  width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center;
+  background: rgba(255,255,255,.85); color: var(--black); transition: background .2s;
 }
-.film-sound:hover, .film-sound[aria-pressed="true"] { background: var(--white); color: var(--black); }
+.film-controls button:hover { background: var(--white); }
+.film-controls svg { width: 16px; height: 16px; fill: currentColor; }
+.film .i-play, .film .i-sound { display: none; }
+.film.is-paused .i-play, .film.has-sound .i-sound { display: block; }
+.film.is-paused .i-pause, .film.has-sound .i-muted { display: none; }
 @media (max-width: 800px) {
-  .film { grid-template-columns: 1fr; align-items: start; }
-  .film-frame { height: auto; width: 100%; max-width: 440px; }
+  .film { height: 88vh; }
+  .film-controls { bottom: auto; top: 16px; }
+  .film-overlay h2 { display: none; } /* the video already shows its own title on phones */
 }
 
 .lookbook { padding: clamp(56px, 8vw, 110px) 0 0; }
